@@ -26,7 +26,7 @@ function setup() {
 
   // Button Play
   buttonPlay = createImg("./assets/icons/play.png");
-  buttonPlay.position(windowWidth/2 - 12, windowHeight/2);
+  buttonPlay.position(windowWidth / 2 - 12, windowHeight / 2);
   buttonPlay.mousePressed(playreplay);
 
   // Button Replay
@@ -38,7 +38,7 @@ function setup() {
 }
 
 function draw() {
-  background(254,254,254);
+  background(254, 254, 254);
 
   fft.analyze();
 
@@ -48,26 +48,26 @@ function draw() {
   var treble = fft.getEnergy("treble");
 
   //BASSI MEDI ALTI - RIMAPPATI
-  var mapBass = map(bass, 0, 255, windowWidth/6, windowWidth/3);
-  var mapMid = map(mid, 0, 255, windowWidth/3, windowWidth/2);
-  var mapTreble = map(treble, 0, 255, windowWidth/2, windowWidth/1.5);
+  var mapBass = map(bass, 0, 255, windowWidth / 6, windowWidth / 3);
+  var mapMid = map(mid, 0, 255, windowWidth / 3, windowWidth / 2);
+  var mapTreble = map(treble, 0, 255, windowWidth / 2, windowWidth / 1.5);
 
   strokeWeight(3);
   stroke(color("white"));
 
   //ROMBI
   push();
-  translate(windowWidth/2, windowHeight/2);
+  translate(windowWidth / 2, windowHeight / 2);
   rotate(45);
 
   fill("rgba(0,50,105,0.99)");
-  rect(-mapBass/2, -mapBass/2, mapBass, mapBass);
+  rect(-mapBass / 2, -mapBass / 2, mapBass, mapBass);
 
   fill("rgba(0,50,105,0.66)");
-  rect(-mapMid/2, -mapMid/2, mapMid, mapMid);
+  rect(-mapMid / 2, -mapMid / 2, mapMid, mapMid);
 
   fill("rgba(0,50,105,0.33)");
-  rect(-mapTreble/2, -mapTreble/2, mapTreble, mapTreble);
+  rect(-mapTreble / 2, -mapTreble / 2, mapTreble, mapTreble);
 
   pop();
 
@@ -75,15 +75,20 @@ function draw() {
   var levelMap = map(level, 0, 1, 1, 4);
 
   //INTRO
-  if(sigla.isPlaying() == false && counter < 1)
-  {
-    fill(0,50,105);
-    rect(0,0,windowWidth,windowHeight);
-    image(logo,windowWidth/2-logo.width/2,windowHeight/2-logo.height-12);
-  }
-  //LOGO
-  else {
-    image(logo,windowWidth/2-logo.width*levelMap/2,windowHeight/2-logo.height*levelMap/2,logo.width*levelMap,logo.height*levelMap);
+  if (sigla.isPlaying() == false && counter < 1) {
+    fill(0, 50, 105);
+    rect(0, 0, windowWidth, windowHeight);
+    image(logo, windowWidth / 2 - logo.width / 2, windowHeight / 2 - logo.height - 12);
+  } else {
+    //LOGO
+    image(logo, windowWidth / 2 - logo.width * levelMap / 2, windowHeight / 2 - logo.height * levelMap / 2, logo.width * levelMap, logo.height * levelMap);
+    noStroke();
+    //TEXT
+    fill("black");
+    textAlign(LEFT);
+    textSize(16);
+    textStyle(BOLD);
+    text("REPLAY", windowWidth - 115, windowHeight - 30);
   }
 }
 
@@ -91,8 +96,7 @@ function playreplay() {
   if (sigla.isPlaying() == true) {
     sigla.stop();
     sigla.play();
-  }
-  else {
+  } else {
     sigla.play();
     buttonPlay.style("visibility", "hidden")
     buttonReplay.style("visibility", "visible");
