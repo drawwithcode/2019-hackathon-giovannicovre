@@ -22,6 +22,7 @@ function setup() {
   fft = new p5.FFT(0.6, 1024);
   fft.setInput(sigla);
 
+  // Volume
   amplitude = new p5.Amplitude();
 
   // Button Play
@@ -42,12 +43,12 @@ function draw() {
 
   fft.analyze();
 
-  //BASSI MEDI ALTI
+  // Bassi Medi Alti
   var bass = fft.getEnergy("bass");
   var mid = fft.getEnergy("mid");
   var treble = fft.getEnergy("treble");
 
-  //BASSI MEDI ALTI - RIMAPPATI
+  // Bassi Medi Alti - Rimappati
   var mapBass = map(bass, 0, 255, windowWidth / 6, windowWidth / 3);
   var mapMid = map(mid, 0, 255, windowWidth / 3, windowWidth / 2);
   var mapTreble = map(treble, 0, 255, windowWidth / 2, windowWidth / 1.5);
@@ -55,7 +56,7 @@ function draw() {
   strokeWeight(3);
   stroke(color("white"));
 
-  //ROMBI
+  // Rombi
   push();
   translate(windowWidth / 2, windowHeight / 2);
   rotate(45);
@@ -74,16 +75,16 @@ function draw() {
   var level = amplitude.getLevel();
   var levelMap = map(level, 0, 1, 1, 4);
 
-  //INTRO
+  // Intro
   if (sigla.isPlaying() == false && counter < 1) {
     fill(0, 50, 105);
     rect(0, 0, windowWidth, windowHeight);
     image(logo, windowWidth / 2 - logo.width / 2, windowHeight / 2 - logo.height - 12);
   } else {
-    //LOGO
+    // Logo
     image(logo, windowWidth / 2 - logo.width * levelMap / 2, windowHeight / 2 - logo.height * levelMap / 2, logo.width * levelMap, logo.height * levelMap);
     noStroke();
-    //TEXT
+    // Text
     fill("black");
     textAlign(LEFT);
     textSize(16);
