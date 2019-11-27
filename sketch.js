@@ -2,12 +2,15 @@ var sigla;
 var buttonPlay;
 var buttonReplay;
 
+var amplitude;
+
 var counter;
 
 function preload() {
+  //SOUND
   sigla = loadSound("./assets/sounds/TG1_sigla.mp3");
-
-  logo = loadImage("./assets/img/TG1_logo.png");
+  //IMG
+  logo = loadImage("./assets/img/TG1_logo.svg");
 }
 
 function setup() {
@@ -18,6 +21,8 @@ function setup() {
 
   fft = new p5.FFT(0.6, 1024);
   fft.setInput(sigla);
+
+  amplitude = new p5.Amplitude();
 
   // Button Play
   buttonPlay = createImg("./assets/icons/play.png");
@@ -33,11 +38,7 @@ function setup() {
 }
 
 function draw() {
-  background("white");
-
-  var dOne;
-  var dTwo;
-  var dThree;
+  background(254,254,254);
 
   fft.analyze();
 
@@ -51,9 +52,10 @@ function draw() {
   var mapMid = map(mid, 0, 255, windowWidth/3, windowWidth/2);
   var mapTreble = map(treble, 0, 255, windowWidth/2, windowWidth/1.5);
 
-  strokeWeight(1);
+  strokeWeight(3);
   stroke(color("white"));
 
+  //ROMBI
   push();
   translate(windowWidth/2, windowHeight/2);
   rotate(45);
@@ -69,11 +71,19 @@ function draw() {
 
   pop();
 
+  var level = amplitude.getLevel();
+  var levelMap = map(level, 0, 1, 1, 4);
+
+  //INTRO
   if(sigla.isPlaying() == false && counter < 1)
   {
     fill(0,50,105);
     rect(0,0,windowWidth,windowHeight);
     image(logo,windowWidth/2-logo.width/2,windowHeight/2-logo.height-12);
+  }
+  //LOGO
+  else {
+    image(logo,windowWidth/2-logo.width*levelMap/2,windowHeight/2-logo.height*levelMap/2,logo.width*levelMap,logo.height*levelMap);
   }
 }
 
