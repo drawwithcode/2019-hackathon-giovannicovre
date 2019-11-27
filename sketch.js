@@ -6,6 +6,8 @@ var counter;
 
 function preload() {
   sigla = loadSound("./assets/sounds/TG1_sigla.mp3");
+
+  logo = loadImage("./assets/img/TG1_logo.png");
 }
 
 function setup() {
@@ -19,7 +21,7 @@ function setup() {
 
   // Button Play
   buttonPlay = createImg("./assets/icons/play.png");
-  buttonPlay.position(windowWidth/2 - 12, windowHeight/2 - 12);
+  buttonPlay.position(windowWidth/2 - 12, windowHeight/2);
   buttonPlay.mousePressed(playreplay);
 
   // Button Replay
@@ -45,31 +47,33 @@ function draw() {
   var treble = fft.getEnergy("treble");
 
   //BASSI MEDI ALTI - RIMAPPATI
-  var mapBass = map(bass, 0, 255, 50, 250);
-  var mapMid = map(mid, 0, 255, 250, 450);
-  var mapTreble = map(treble, 0, 255, 450, 650);
+  var mapBass = map(bass, 0, 255, windowWidth/6, windowWidth/3);
+  var mapMid = map(mid, 0, 255, windowWidth/3, windowWidth/2);
+  var mapTreble = map(treble, 0, 255, windowWidth/2, windowWidth/1.5);
 
-  strokeWeight(2);
-  noFill();
+  strokeWeight(1);
+  stroke(color("white"));
 
   push();
   translate(windowWidth/2, windowHeight/2);
   rotate(45);
 
-  stroke(color(bass, bass, bass));
+  fill("rgba(0,50,105,0.99)");
   rect(-mapBass/2, -mapBass/2, mapBass, mapBass);
 
-  stroke(color(mid, mid, mid));
+  fill("rgba(0,50,105,0.66)");
   rect(-mapMid/2, -mapMid/2, mapMid, mapMid);
 
-  stroke(color(treble, treble, treble));
+  fill("rgba(0,50,105,0.33)");
   rect(-mapTreble/2, -mapTreble/2, mapTreble, mapTreble);
+
   pop();
 
   if(sigla.isPlaying() == false && counter < 1)
   {
     fill(0,50,105);
     rect(0,0,windowWidth,windowHeight);
+    image(logo,windowWidth/2-logo.width/2,windowHeight/2-logo.height-12);
   }
 }
 
@@ -77,10 +81,8 @@ function playreplay() {
   if (sigla.isPlaying() == true) {
     sigla.stop();
     sigla.play();
-    //buttonReplay.style("visibility", "hidden");
-    //buttonPlay.style("visibility", "visible");
-
-  } else {
+  }
+  else {
     sigla.play();
     buttonPlay.style("visibility", "hidden")
     buttonReplay.style("visibility", "visible");
