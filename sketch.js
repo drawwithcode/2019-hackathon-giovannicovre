@@ -106,6 +106,6 @@ function playreplay() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  buttonPlay.position((windowWidth - buttonPlay.width) / 2, (windowHeight - buttonPlay.height) / 2);
+  buttonPlay.position((windowWidth - buttonPlay.width) / 2, windowHeight / 2);
   buttonReplay.position(windowWidth - 48, windowHeight - 48);
 }
